@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Background decorations -->
+        <div class="bg-hearts">
+            <div class="heart heart-1">💖</div>
+            <div class="heart heart-2">💕</div>
+            <div class="heart heart-3">💗</div>
+            <div class="heart heart-4">💝</div>
+            <div class="heart heart-5">💘</div>
+        </div>
+
+        <div class="main-content">
+            <header class="header">
+                <h1 class="title">
+                    <i class="fas fa-heart"></i>
+                    Ngày Phụ Nữ Việt Nam
+                    <i class="fas fa-heart"></i>
+                </h1>
+                <div class="subtitle">8 tháng 3</div>
+            </header>
+
+            <div class="love-message">
+                <div class="message-container">
+                    <i class="fas fa-quote-left"></i>
+                    <p class="message-text"><%= randomMessage %></p>
+                    <i class="fas fa-quote-right"></i>
+                </div>
+            </div>
+
+            <div class="description">
+                <p>Gửi tặng thông điệp yêu thương đến người phụ nữ đặc biệt trong cuộc đời bạn.</p>
+                <p>Tạo thiệp tình yêu với QR code độc đáo và chia sẻ ngay!</p>
+            </div>
+
+            <button class="create-btn" onclick="openModal()">
+                <i class="fas fa-heart"></i>
+                Tạo Yêu Thương
+                <i class="fas fa-heart"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal for creating gift -->
+    <div id="giftModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-gift"></i> Tạo Thiệp Yêu Thương</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <form id="giftForm" action="/create-gift" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="receiver">
+                        <i class="fas fa-user-heart"></i>
+                        Người nhận
+                    </label>
+                    <input type="text" id="receiver" name="receiver" required 
+                           placeholder="Ví dụ: Mẹ, Em gái, Bạn gái...">
+                </div>
+
+                <div class="form-group">
+                    <label for="sender">
+                        <i class="fas fa-user"></i>
+                        Người gửi
+                    </label>
+                    <input type="text" id="sender" name="sender" required 
+                           placeholder="Tên của bạn">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">
+                        <i class="fas fa-comment-heart"></i>
+                        Tin nhắn yêu thương
+                    </label>
+                    <div class="ai-message-section">
+                        <div class="ai-controls">
+                            <select id="relationship" class="relationship-select">
+                                <option value="mẹ">Mẹ</option>
+                                <option value="bạn gái">Bạn gái</option>
+                                <option value="vợ">Vợ</option>
+                                <option value="chị gái">Chị gái</option>
+                                <option value="em gái">Em gái</option>
+                                <option value="bà ngoại">Bà ngoại</option>
+                                <option value="cô giáo">Cô giáo</option>
+                                <option value="bạn thân">Bạn thân</option>
+                            </select>
+                            <button type="button" id="generateAI" class="ai-btn">
+                                <i class="fas fa-magic"></i>
+                                Tạo bằng AI
+                            </button>
+                        </div>
+                        <div id="aiLoading" class="ai-loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Đang tạo tin nhắn...
+                        </div>
+                    </div>
+                    <textarea id="message" name="message" required 
+                              placeholder="Viết tin nhắn yêu thương của bạn..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="template">
+                        <i class="fas fa-palette"></i>
+                        Chọn mẫu thiệp
+                    </label>
+                    <select id="template" name="template" required>
+                        <option value="pink_hearts">💖 Trái Tim Hồng</option>
+                        <option value="floral_garden">🌸 Vườn Hoa</option>
+                        <option value="romantic_sunset">🌅 Hoàng Hôn Lãng Mạn</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">
+                        <i class="fas fa-image"></i>
+                        Ảnh kèm theo (tùy chọn)
+                    </label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                    <small>Chỉ chấp nhận file ảnh (JPG, PNG, GIF) tối đa 5MB</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal()">
+                        <i class="fas fa-times"></i>
+                        Hủy
+                    </button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-heart"></i>
+                        Tạo Thiệp
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
+

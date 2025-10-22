@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="gift-page">
+    <div class="gift-container">
+        <div class="gift-card template-<%= gift.template %>">
+            <!-- Background decorations based on template -->
+            <div class="gift-bg-decoration">
+                <% if (gift.template === 'pink_hearts') { %>
+                    <div class="hearts-bg">
+                        <div class="heart-bg heart-bg-1">💖</div>
+                        <div class="heart-bg heart-bg-2">💕</div>
+                        <div class="heart-bg heart-bg-3">💗</div>
+                        <div class="heart-bg heart-bg-4">💝</div>
+                    </div>
+                <% } else if (gift.template === 'floral_garden') { %>
+                    <div class="flowers-bg">
+                        <div class="flower-bg flower-bg-1">🌸</div>
+                        <div class="flower-bg flower-bg-2">🌺</div>
+                        <div class="flower-bg flower-bg-3">🌻</div>
+                        <div class="flower-bg flower-bg-4">🌷</div>
+                    </div>
+                <% } else if (gift.template === 'romantic_sunset') { %>
+                    <div class="sunset-bg">
+                        <div class="sunset-gradient"></div>
+                        <div class="cloud cloud-1">☁️</div>
+                        <div class="cloud cloud-2">☁️</div>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="gift-content">
+                <header class="gift-header">
+                    <h1 class="gift-title">
+                        <i class="fas fa-heart"></i>
+                        Thiệp Yêu Thương
+                        <i class="fas fa-heart"></i>
+                    </h1>
+                    <div class="gift-subtitle">Ngày Phụ Nữ Việt Nam 8/3</div>
+                </header>
+
+                <% if (gift.image_path) { %>
+                    <div class="gift-image">
+                        <img src="/uploads/<%= gift.image_path %>" alt="Ảnh kèm theo" class="uploaded-image">
+                    </div>
+                <% } %>
+
+                <div class="gift-message">
+                    <div class="message-content">
+                        <p class="message-text"><%= gift.message %></p>
+                    </div>
+                </div>
+
+                <div class="gift-signature">
+                    <div class="signature-line">
+                        <span class="signature-label">Gửi đến:</span>
+                        <span class="signature-value"><%= gift.receiver %></span>
+                    </div>
+                    <div class="signature-line">
+                        <span class="signature-label">Từ:</span>
+                        <span class="signature-value"><%= gift.sender %></span>
+                    </div>
+                    <div class="signature-line">
+                        <span class="signature-label">Ngày tạo:</span>
+                        <span class="signature-value"><%= new Date(gift.created_at).toLocaleDateString('vi-VN') %></span>
+                    </div>
+                </div>
+
+                <div class="gift-footer">
+                    <div class="share-section">
+                        <p class="share-text">Chia sẻ thiệp yêu thương này:</p>
+                        <button class="share-btn" onclick="shareGift()">
+                            <i class="fas fa-share-alt"></i>
+                            Chia sẻ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gift-actions">
+            <a href="/" class="create-new-btn">
+                <i class="fas fa-plus"></i>
+                Tạo thiệp mới
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function shareGift() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Thiệp Yêu Thương - Ngày Phụ Nữ Việt Nam',
+                    text: 'Xem thiệp yêu thương được tạo cho ngày 8/3',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Đã sao chép link vào clipboard!');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+

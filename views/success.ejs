@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="success-page">
+    <div class="container">
+        <!-- Background decorations -->
+        <div class="bg-hearts">
+            <div class="heart heart-1">💖</div>
+            <div class="heart heart-2">💕</div>
+            <div class="heart heart-3">💗</div>
+            <div class="heart heart-4">💝</div>
+            <div class="heart heart-5">💘</div>
+        </div>
+
+        <div class="success-content">
+            <div class="success-header">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="success-title">Tạo Thiệp Thành Công!</h1>
+                <p class="success-message">Thiệp yêu thương của bạn đã được tạo và sẵn sàng để chia sẻ!</p>
+            </div>
+
+            <div class="qr-section">
+                <h2 class="qr-title">
+                    <i class="fas fa-qrcode"></i>
+                    Mã QR Code
+                </h2>
+                <div class="qr-container">
+                    <img src="<%= qrCodeDataURL %>" alt="QR Code" class="qr-image">
+                </div>
+                <p class="qr-instruction">Quét mã QR để xem thiệp yêu thương</p>
+            </div>
+
+            <div class="link-section">
+                <h2 class="link-title">
+                    <i class="fas fa-link"></i>
+                    Link Chia Sẻ
+                </h2>
+                <div class="link-container">
+                    <input type="text" id="giftLink" value="<%= giftUrl %>" readonly class="link-input">
+                    <button class="copy-btn" onclick="copyLink()">
+                        <i class="fas fa-copy"></i>
+                        Sao chép
+                    </button>
+                </div>
+                <p class="link-instruction">Chia sẻ link này để người khác có thể xem thiệp</p>
+            </div>
+
+            <div class="preview-section">
+                <h2 class="preview-title">
+                    <i class="fas fa-eye"></i>
+                    Xem Trước Thiệp
+                </h2>
+                <a href="<%= giftUrl %>" target="_blank" class="preview-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Xem thiệp
+                </a>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/" class="create-another-btn">
+                    <i class="fas fa-plus"></i>
+                    Tạo thiệp khác
+                </a>
+                <button class="share-btn" onclick="shareGift()">
+                    <i class="fas fa-share-alt"></i>
+                    Chia sẻ ngay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyLink() {
+            const linkInput = document.getElementById('giftLink');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // For mobile devices
+            
+            navigator.clipboard.writeText(linkInput.value).then(() => {
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
+                copyBtn.style.backgroundColor = '#4CAF50';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.style.backgroundColor = '#ff6b9d';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                document.execCommand('copy');
+                alert('Đã sao chép link vào clipboard!');
+            });
+        }
+
+        function shareGift() {
+            const giftUrl = '<%= giftUrl %>';
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Thiệp Yêu Thương - Ngày Phụ Nữ Việt Nam',
+                    text: 'Xem thiệp yêu thương được tạo cho ngày 8/3',
+                    url: giftUrl
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(giftUrl).then(() => {
+                    alert('Đã sao chép link vào clipboard!');
+                });
+            }
+        }
+
+        // Auto-focus on link input for easy copying
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('giftLink').focus();
+        });
+    </script>
+</body>
+</html>
+
